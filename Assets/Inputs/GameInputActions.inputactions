@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Test Zoom",
+                    "name": "Axis Zoom",
                     "type": "Value",
                     "id": "15ad9b15-43e8-420a-9d00-3160cfb82621",
                     "expectedControlType": "Axis",
@@ -143,13 +143,13 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
+                    "name": "UpDownArrow",
                     "id": "ad8cc1dc-5f9d-407b-9dd8-f24fbe6a8718",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Test Zoom",
+                    "action": "Axis Zoom",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -160,7 +160,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Test Zoom",
+                    "action": "Axis Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -171,7 +171,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Test Zoom",
+                    "action": "Axis Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

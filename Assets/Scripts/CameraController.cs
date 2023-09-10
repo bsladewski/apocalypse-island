@@ -13,9 +13,13 @@ public class CameraController : MonoBehaviour
     private LayerMask terrainLayerMask;
 
     [Header("Camera Pan Settings")]
-    [Tooltip("The maximum speed that the camera can pan.")]
+    [Tooltip("The speed that the camera can pan when fully zoomed out.")]
     [SerializeField]
-    private float maxPanSpeed = 50f;
+    private float maxPanSpeed = 120f;
+
+    [Tooltip("The speed that the camera can pan when fully zoomed in.")]
+    [SerializeField]
+    private float minPanSpeed = 20f;
 
     [Tooltip("Determines how quickly the camera pan speed accelerates and decelerates.")]
     [SerializeField]
@@ -28,7 +32,7 @@ public class CameraController : MonoBehaviour
     [Header("Camera Rotate Settings")]
     [Tooltip("The maximum speed that the camera can rotate.")]
     [SerializeField]
-    private float maxRotateSpeed = 100f;
+    private float maxRotateSpeed = 64f;
 
     [SerializeField]
     [Tooltip("Determines how quickly the camera rotation accelerates and decelerates.")]
@@ -100,7 +104,8 @@ public class CameraController : MonoBehaviour
         Vector2 inputVector = gameInputActions.Camera.Pan.ReadValue<Vector2>();
         Vector3 targetDir = new Vector3(inputVector.x, 0f, inputVector.y);
         targetDir = transform.TransformVector(targetDir);
-        panVector = Vector3.Lerp(panVector, targetDir * maxPanSpeed, panAcceleration * Time.deltaTime);
+        float adjustedMaxPanSpeed = CalculateMaxPanSpeed();
+        panVector = Vector3.Lerp(panVector, targetDir * adjustedMaxPanSpeed, panAcceleration * Time.deltaTime);
 
         transform.position += panVector * Time.deltaTime;
         if (panVector != Vector3.zero || Mathf.Abs(transform.position.y - targetHeight) > 0.1f)
@@ -123,8 +128,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleCameraZoom()
     {
-        // handle camera zoom for gamepad controls TODO: use gamepad instead of keys
-        float inputAxis = gameInputActions.Camera.TestZoom.ReadValue<float>() * axisZoomAdjust;
+        float inputAxis = gameInputActions.Camera.AxisZoom.ReadValue<float>() * axisZoomAdjust;
         offsetY = Mathf.Clamp(offsetY + (inputAxis * Time.deltaTime), minOffsetY, maxOffsetY);
 
         Vector3 currentOffset = virtualCameraTransposer.m_FollowOffset;
@@ -150,5 +154,11 @@ public class CameraController : MonoBehaviour
         {
             Debug.LogError("Failed to raycast terrain!");
         }
+    }
+
+    private float CalculateMaxPanSpeed()
+    {
+        float zoomPercent = (offsetY - minOffsetY) / (maxOffsetY - minOffsetY);
+        return (maxPanSpeed - minPanSpeed) * zoomPercent + minPanSpeed;
     }
 }

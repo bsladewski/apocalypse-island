@@ -55,7 +55,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Test Zoom"",
+                    ""name"": ""Axis Zoom"",
                     ""type"": ""Value"",
                     ""id"": ""15ad9b15-43e8-420a-9d00-3160cfb82621"",
                     ""expectedControlType"": ""Axis"",
@@ -165,13 +165,13 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": ""UpDownArrow"",
                     ""id"": ""ad8cc1dc-5f9d-407b-9dd8-f24fbe6a8718"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Test Zoom"",
+                    ""action"": ""Axis Zoom"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -182,7 +182,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Test Zoom"",
+                    ""action"": ""Axis Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -193,7 +193,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Test Zoom"",
+                    ""action"": ""Axis Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -207,7 +207,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Camera_Pan = m_Camera.FindAction("Pan", throwIfNotFound: true);
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
         m_Camera_ScrollZoom = m_Camera.FindAction("Scroll Zoom", throwIfNotFound: true);
-        m_Camera_TestZoom = m_Camera.FindAction("Test Zoom", throwIfNotFound: true);
+        m_Camera_AxisZoom = m_Camera.FindAction("Axis Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -272,7 +272,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Camera_Pan;
     private readonly InputAction m_Camera_Rotate;
     private readonly InputAction m_Camera_ScrollZoom;
-    private readonly InputAction m_Camera_TestZoom;
+    private readonly InputAction m_Camera_AxisZoom;
     public struct CameraActions
     {
         private @GameInputActions m_Wrapper;
@@ -280,7 +280,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @Pan => m_Wrapper.m_Camera_Pan;
         public InputAction @Rotate => m_Wrapper.m_Camera_Rotate;
         public InputAction @ScrollZoom => m_Wrapper.m_Camera_ScrollZoom;
-        public InputAction @TestZoom => m_Wrapper.m_Camera_TestZoom;
+        public InputAction @AxisZoom => m_Wrapper.m_Camera_AxisZoom;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -299,9 +299,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @ScrollZoom.started += instance.OnScrollZoom;
             @ScrollZoom.performed += instance.OnScrollZoom;
             @ScrollZoom.canceled += instance.OnScrollZoom;
-            @TestZoom.started += instance.OnTestZoom;
-            @TestZoom.performed += instance.OnTestZoom;
-            @TestZoom.canceled += instance.OnTestZoom;
+            @AxisZoom.started += instance.OnAxisZoom;
+            @AxisZoom.performed += instance.OnAxisZoom;
+            @AxisZoom.canceled += instance.OnAxisZoom;
         }
 
         private void UnregisterCallbacks(ICameraActions instance)
@@ -315,9 +315,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @ScrollZoom.started -= instance.OnScrollZoom;
             @ScrollZoom.performed -= instance.OnScrollZoom;
             @ScrollZoom.canceled -= instance.OnScrollZoom;
-            @TestZoom.started -= instance.OnTestZoom;
-            @TestZoom.performed -= instance.OnTestZoom;
-            @TestZoom.canceled -= instance.OnTestZoom;
+            @AxisZoom.started -= instance.OnAxisZoom;
+            @AxisZoom.performed -= instance.OnAxisZoom;
+            @AxisZoom.canceled -= instance.OnAxisZoom;
         }
 
         public void RemoveCallbacks(ICameraActions instance)
@@ -340,6 +340,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnPan(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
         void OnScrollZoom(InputAction.CallbackContext context);
-        void OnTestZoom(InputAction.CallbackContext context);
+        void OnAxisZoom(InputAction.CallbackContext context);
     }
 }
