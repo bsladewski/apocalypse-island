@@ -46,9 +46,9 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 11400000, guid: d0e2fc18fe036412f8223b3b3d9ad574,
       type: 2}
-    terrainQualityOverrides: 0
+    terrainQualityOverrides: 12
     terrainPixelError: 1
-    terrainDetailDensityScale: 1
+    terrainDetailDensityScale: 0.01
     terrainBasemapDistance: 1000
     terrainDetailDistance: 80
     terrainTreeDistance: 5000
