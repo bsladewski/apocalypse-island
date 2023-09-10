@@ -6,6 +6,10 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
 
+    [Tooltip("The size of the island in meters. This establishes the camera boundaries.")]
+    [SerializeField]
+    private float islandSize = 1024f;
+
     private CinemachineTransposer virtualCameraTransposer;
 
     [Tooltip("The layer used to raycast camera height.")]
@@ -70,6 +74,8 @@ public class CameraController : MonoBehaviour
         gameInputActions = new GameInputActions();
         gameInputActions.Camera.ScrollZoom.performed += context =>
         {
+            // scrolling can't be polled in the update so we need to immediately add mouse wheel
+            // input to the zoom offset
             float inputAxis = context.ReadValue<float>() * scrollZoomAdjust;
             offsetY = Mathf.Clamp(offsetY + inputAxis, minOffsetY, maxOffsetY);
         };
@@ -107,11 +113,16 @@ public class CameraController : MonoBehaviour
         float adjustedMaxPanSpeed = CalculateMaxPanSpeed();
         panVector = Vector3.Lerp(panVector, targetDir * adjustedMaxPanSpeed, panAcceleration * Time.deltaTime);
 
+        // bound pan vector to the size of the island
+        panVector = ApplyPanBoundaries(panVector);
+
         transform.position += panVector * Time.deltaTime;
         if (panVector != Vector3.zero || Mathf.Abs(transform.position.y - targetHeight) > 0.1f)
         {
             RecalculateHeight();
-            transform.position = new Vector3(transform.position.x, targetHeight, transform.position.z);
+
+            float newHeight = Mathf.Lerp(transform.position.y, targetHeight, panAcceleration * Time.deltaTime);
+            transform.position = new Vector3(transform.position.x, newHeight, transform.position.z);
         }
     }
 
@@ -131,6 +142,7 @@ public class CameraController : MonoBehaviour
         float inputAxis = gameInputActions.Camera.AxisZoom.ReadValue<float>() * axisZoomAdjust;
         offsetY = Mathf.Clamp(offsetY + (inputAxis * Time.deltaTime), minOffsetY, maxOffsetY);
 
+        // adjust the camera zoom by altering the camera body Y-offset
         Vector3 currentOffset = virtualCameraTransposer.m_FollowOffset;
         Vector3 targetOffset = new Vector3(currentOffset.x, offsetY, currentOffset.z);
         if (Vector3.Distance(currentOffset, targetOffset) > 0.1f)
@@ -142,7 +154,7 @@ public class CameraController : MonoBehaviour
 
     private void RecalculateHeight()
     {
-        float raycastHeight = 100f;
+        float raycastHeight = 100f; // the range of terrain heights should be less than 100 and greater than -100
         Vector3 raycastOrigin = new Vector3(transform.position.x, raycastHeight, transform.position.z);
 
         RaycastHit hitInfo;
@@ -152,13 +164,27 @@ public class CameraController : MonoBehaviour
         }
         else
         {
+            // the main camera should always be positioned above the terrain or surrounding water
             Debug.LogError("Failed to raycast terrain!");
         }
     }
 
     private float CalculateMaxPanSpeed()
     {
+        // interpolate the pan speed between the min and max speeds based on the camera zoom
         float zoomPercent = (offsetY - minOffsetY) / (maxOffsetY - minOffsetY);
         return (maxPanSpeed - minPanSpeed) * zoomPercent + minPanSpeed;
+    }
+
+    private Vector3 ApplyPanBoundaries(Vector3 panVector)
+    {
+        // clamps the pan vector based on the island size and current camera position
+        float offsetIslandSize = islandSize / 2f;
+        float minX = -offsetIslandSize - transform.position.x;
+        float maxX = offsetIslandSize - transform.position.x;
+        float minZ = -offsetIslandSize - transform.position.z;
+        float maxZ = offsetIslandSize - transform.position.z;
+
+        return new Vector3(Mathf.Clamp(panVector.x, minX, maxX), 0f, Mathf.Clamp(panVector.z, minZ, maxZ));
     }
 }
