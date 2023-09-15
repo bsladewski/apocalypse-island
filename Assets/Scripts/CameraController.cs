@@ -1,5 +1,6 @@
-using UnityEngine;
 using Cinemachine;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
@@ -72,23 +73,17 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         gameInputActions = new GameInputActions();
-        gameInputActions.Camera.ScrollZoom.performed += context =>
-        {
-            // scrolling can't be polled in the update so we need to immediately add mouse wheel
-            // input to the zoom offset
-            float inputAxis = context.ReadValue<float>() * scrollZoomAdjust;
-            offsetY = Mathf.Clamp(offsetY + inputAxis, minOffsetY, maxOffsetY);
-        };
     }
 
     private void OnEnable()
     {
+        gameInputActions.Camera.ScrollZoom.performed += HandleScrollZoom;
         gameInputActions.Camera.Enable();
     }
 
     private void OnDisable()
     {
-        gameInputActions.Camera.Disable();
+        gameInputActions.Camera.ScrollZoom.performed -= HandleScrollZoom;
     }
 
     private void Start()
@@ -186,5 +181,13 @@ public class CameraController : MonoBehaviour
         float maxZ = offsetIslandSize - transform.position.z;
 
         return new Vector3(Mathf.Clamp(panVector.x, minX, maxX), 0f, Mathf.Clamp(panVector.z, minZ, maxZ));
+    }
+
+    private void HandleScrollZoom(InputAction.CallbackContext context)
+    {
+        // scrolling can't be polled in the update so we need to immediately add mouse wheel
+        // input to the zoom offset
+        float inputAxis = context.ReadValue<float>() * scrollZoomAdjust;
+        offsetY = Mathf.Clamp(offsetY + inputAxis, minOffsetY, maxOffsetY);
     }
 }

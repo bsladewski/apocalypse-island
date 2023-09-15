@@ -41,7 +41,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""4b307b96-ed54-4cfe-b9c6-77d53dd2fef6"",
                     ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -59,7 +59,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""15ad9b15-43e8-420a-9d00-3160cfb82621"",
                     ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }
@@ -154,6 +154,39 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""LeftRightArrow"",
+                    ""id"": ""668f16fe-7af5-44e7-9f3b-c3b2c510e6f0"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""fe415f4d-7cd4-4df7-92f9-1ad0d7ce1f7d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ede0edc9-4be4-4311-be9f-92dc92939c93"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""577b792c-cbbd-44ff-b446-4165da0deb87"",
                     ""path"": ""<Mouse>/scroll/y"",
@@ -198,6 +231,74 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Interactions"",
+            ""id"": ""c1d2ef7f-089c-4340-8d2b-cba8664b0d0e"",
+            ""actions"": [
+                {
+                    ""name"": ""LeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""5641b44d-e646-43c8-98a2-25a36928895d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""ced3aabe-6f10-4270-9489-166eaf7c27b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""aba776c5-f80e-441e-a39c-59d176dea52e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""189c4062-6a62-4922-b40f-c4e02f8ade4a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""97569844-9b0d-4a36-86d5-75d2cad14fbd"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d381dbf-9712-4144-8c8d-f8b044af538f"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -208,6 +309,11 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
         m_Camera_ScrollZoom = m_Camera.FindAction("Scroll Zoom", throwIfNotFound: true);
         m_Camera_AxisZoom = m_Camera.FindAction("Axis Zoom", throwIfNotFound: true);
+        // Interactions
+        m_Interactions = asset.FindActionMap("Interactions", throwIfNotFound: true);
+        m_Interactions_LeftClick = m_Interactions.FindAction("LeftClick", throwIfNotFound: true);
+        m_Interactions_RightClick = m_Interactions.FindAction("RightClick", throwIfNotFound: true);
+        m_Interactions_MousePosition = m_Interactions.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -335,11 +441,79 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         }
     }
     public CameraActions @Camera => new CameraActions(this);
+
+    // Interactions
+    private readonly InputActionMap m_Interactions;
+    private List<IInteractionsActions> m_InteractionsActionsCallbackInterfaces = new List<IInteractionsActions>();
+    private readonly InputAction m_Interactions_LeftClick;
+    private readonly InputAction m_Interactions_RightClick;
+    private readonly InputAction m_Interactions_MousePosition;
+    public struct InteractionsActions
+    {
+        private @GameInputActions m_Wrapper;
+        public InteractionsActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LeftClick => m_Wrapper.m_Interactions_LeftClick;
+        public InputAction @RightClick => m_Wrapper.m_Interactions_RightClick;
+        public InputAction @MousePosition => m_Wrapper.m_Interactions_MousePosition;
+        public InputActionMap Get() { return m_Wrapper.m_Interactions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InteractionsActions set) { return set.Get(); }
+        public void AddCallbacks(IInteractionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InteractionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InteractionsActionsCallbackInterfaces.Add(instance);
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
+        }
+
+        private void UnregisterCallbacks(IInteractionsActions instance)
+        {
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
+        }
+
+        public void RemoveCallbacks(IInteractionsActions instance)
+        {
+            if (m_Wrapper.m_InteractionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInteractionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InteractionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InteractionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InteractionsActions @Interactions => new InteractionsActions(this);
     public interface ICameraActions
     {
         void OnPan(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
         void OnScrollZoom(InputAction.CallbackContext context);
         void OnAxisZoom(InputAction.CallbackContext context);
+    }
+    public interface IInteractionsActions
+    {
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

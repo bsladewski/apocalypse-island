@@ -21,3 +21,4 @@ The game uses the following 3rd part party dependencies:
 - Cinemachine
 - Unity Input System
 - The A* Pathfinding Project (Aron Granberg)
+- QuickOutline (Chris Nolet)
