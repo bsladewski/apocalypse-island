@@ -20,9 +20,11 @@ public class InteractionSystem : MonoBehaviour
 
     private GameInputActions gameInputActions;
 
-    public event EventHandler<GameObject> OnInteractableSelected;
+    public event EventHandler<GameObject> OnSelect;
 
-    public event EventHandler OnInteractableDeselected;
+    public event EventHandler OnDeselect;
+
+    public event EventHandler<Vector3> OnMoveInteraction;
 
     private void Awake()
     {
@@ -56,18 +58,30 @@ public class InteractionSystem : MonoBehaviour
             int hitLayer = hit.transform.gameObject.layer;
             if (CollisionUtils.LayerMaskContainsAny(interactionLayer, hitLayer))
             {
-                OnInteractableSelected?.Invoke(this, hit.transform.gameObject);
+                if (hit.transform.GetComponent<Selectable>() != null)
+                {
+                    OnSelect?.Invoke(this, hit.transform.gameObject);
+                }
             }
 
             if (CollisionUtils.LayerMaskContainsAny(terrainLayer, hitLayer))
             {
-                OnInteractableDeselected?.Invoke(this, EventArgs.Empty);
+                OnDeselect?.Invoke(this, EventArgs.Empty);
             }
         }
     }
 
     private void HandleRightClick(InputAction.CallbackContext context)
     {
-
+        Vector2 mousePosition = gameInputActions.Interactions.MousePosition.ReadValue<Vector2>();
+        Ray ray = raycastCamera.ScreenPointToRay(mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 200f, layerMask))
+        {
+            int hitLayer = hit.transform.gameObject.layer;
+            if (CollisionUtils.LayerMaskContainsAny(terrainLayer, hitLayer))
+            {
+                OnMoveInteraction?.Invoke(this, hit.point);
+            }
+        }
     }
 }

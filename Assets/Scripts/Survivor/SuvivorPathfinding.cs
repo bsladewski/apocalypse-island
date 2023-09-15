@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class SurvivorPathfinding : MonoBehaviour
 {
-
-    // TODO: targets for pathfinding should be event-driven
-
     private AIPath aiPath;
-
-    private Vector3 targetPosition;
 
     private void Start()
     {
         aiPath = GetComponent<AIPath>();
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        aiPath.destination = targetPosition;
     }
 }
