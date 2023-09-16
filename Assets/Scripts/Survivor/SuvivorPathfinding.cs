@@ -14,4 +14,9 @@ public class SurvivorPathfinding : MonoBehaviour
     {
         aiPath.destination = targetPosition;
     }
+
+    public bool IsMoving()
+    {
+        return aiPath.pathPending || !aiPath.reachedDestination;
+    }
 }

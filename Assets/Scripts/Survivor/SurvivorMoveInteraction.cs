@@ -6,7 +6,7 @@ public class SurvivorMoveInteraction : MonoBehaviour
     private Selectable selectInteraction;
 
     [SerializeField]
-    private SurvivorPathfinding survivorPathfinding;
+    private TaskWorkerAI taskWorkerAI;
 
     private void Start()
     {
@@ -17,7 +17,7 @@ public class SurvivorMoveInteraction : MonoBehaviour
     {
         if (selectInteraction.GetIsSelected())
         {
-            survivorPathfinding.SetTargetPosition(movePosition);
+            taskWorkerAI.SetTask(new Task(movePosition, true));
         }
     }
 }

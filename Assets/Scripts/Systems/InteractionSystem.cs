@@ -4,7 +4,7 @@ using System;
 
 public class InteractionSystem : MonoBehaviour
 {
-    public static InteractionSystem Instance;
+    public static InteractionSystem Instance { get; private set; }
 
     [SerializeField]
     private Camera raycastCamera;

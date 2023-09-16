@@ -15,7 +15,9 @@ GameObject:
   - component: {fileID: 2910205098991637452}
   - component: {fileID: 7919544779076185415}
   - component: {fileID: 5964762952022448220}
-  - component: {fileID: 906467129481409317}
+  - component: {fileID: 5512047673031663113}
+  - component: {fileID: 104074435549317654}
+  - component: {fileID: 1442365059793419615}
   m_Layer: 0
   m_Name: Survivor
   m_TagString: Untagged
@@ -177,7 +179,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7b72fab507fda4fbfbe5aca533c3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &906467129481409317
+--- !u!114 &5512047673031663113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550583961646484385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928d0a2574fb30e4483af6504cfef4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worker: {fileID: 104074435549317654}
+--- !u!114 &104074435549317654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550583961646484385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd5cb1cb893a8c49919c4070c650072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  survivorPathfinding: {fileID: 5964762952022448220}
+--- !u!114 &1442365059793419615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectInteraction: {fileID: 6151508999085556945}
-  survivorPathfinding: {fileID: 5964762952022448220}
+  taskWorkerAI: {fileID: 5512047673031663113}
 --- !u!1 &8260069913349941018
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +272,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.25
-  m_Height: 3.5
+  m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 1.75, z: 0}
 --- !u!114 &6151508999085556945
