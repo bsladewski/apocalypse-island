@@ -6,7 +6,7 @@ public class Selectable : MonoBehaviour
     [SerializeField]
     private Outline outline;
 
-    private bool isSelected = false;
+    private bool isSelected;
 
     public bool GetIsSelected()
     {

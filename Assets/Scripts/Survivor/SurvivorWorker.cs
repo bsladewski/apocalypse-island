@@ -10,7 +10,7 @@ public class SurvivorWorker : TaskWorker
 
     private IEnumerator awaitPathComplete;
 
-    public override void MoveTo(Vector3 targetPosition, Action onArrivedAtPosition = null)
+    public override void MoveTo(Vector3 targetPosition, Action onArrivedAtPosition)
     {
         if (awaitPathComplete != null)
         {

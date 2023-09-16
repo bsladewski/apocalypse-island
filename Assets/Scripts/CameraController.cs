@@ -125,11 +125,7 @@ public class CameraController : MonoBehaviour
     {
         float inputAxis = gameInputActions.Camera.Rotate.ReadValue<float>();
         rotateSpeed = Mathf.Lerp(rotateSpeed, inputAxis * maxRotateSpeed, rotateAcceleration * Time.deltaTime);
-
-        if (rotateSpeed != 0f)
-        {
-            transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f);
-        }
+        transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f);
     }
 
     private void HandleCameraZoom()

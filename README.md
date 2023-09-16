@@ -17,8 +17,8 @@ The game is built in Unity 2022.3.8f1.
 
 The game uses the following 3rd part party dependencies:
 
-- Gaia Pro 2021 - Terrain & Scene Generator (Procedural Worlds)
-- Cinemachine
-- Unity Input System
-- The A* Pathfinding Project (Aron Granberg)
-- QuickOutline (Chris Nolet)
+-   Gaia Pro 2021 - Terrain & Scene Generator (Procedural Worlds)
+-   Cinemachine
+-   Unity Input System
+-   The A* Pathfinding Project (Aron Granberg)
+-   QuickOutline (Chris Nolet)

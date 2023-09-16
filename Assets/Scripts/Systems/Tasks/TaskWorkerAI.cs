@@ -30,18 +30,16 @@ public class TaskWorkerAI : MonoBehaviour
 
     private void Update()
     {
-        switch (state)
+        if (state == State.Idle)
         {
-            case State.Idle:
-                idleTimer -= Time.deltaTime;
-                if (idleTimer <= 0)
-                {
-                    // request next task after 200ms idle
-                    float idleTimerMax = 0.2f;
-                    idleTimer = idleTimerMax;
-                    RequestNextTask();
-                }
-                break;
+            idleTimer -= Time.deltaTime;
+            if (idleTimer <= 0)
+            {
+                // request next task after 200ms idle
+                float idleTimerMax = 0.2f;
+                idleTimer = idleTimerMax;
+                RequestNextTask();
+            }
         }
     }
 
@@ -60,7 +58,7 @@ public class TaskWorkerAI : MonoBehaviour
     {
         taskInProgress = task;
         state = State.Working;
-        worker.MoveTo(task.targetPosition, () =>
+        worker.MoveTo(task.GetTargetPosition(), () =>
         {
             taskInProgress = null;
             state = State.Idle;
@@ -69,7 +67,7 @@ public class TaskWorkerAI : MonoBehaviour
 
     private void CancelTask()
     {
-        if (taskInProgress != null && !taskInProgress.isPriorityTask)
+        if (taskInProgress != null && !taskInProgress.GetIsPriorityTask())
         {
             // return the task to the task queue
             TaskSystem.Instance.AddTask(taskInProgress, true);
