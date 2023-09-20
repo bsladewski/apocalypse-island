@@ -17,7 +17,12 @@ public class TaskSystem : MonoBehaviour
         Instance = this;
     }
 
-    public void AddTask(Task task, bool addToHead = false)
+    public void AddTask(Task task)
+    {
+        AddTask(task, false);
+    }
+
+    public void AddTask(Task task, bool addToHead)
     {
         if (addToHead)
         {

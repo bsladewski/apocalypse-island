@@ -22,7 +22,7 @@ public class Task
 
 public class MoveTask : Task
 {
-    private Vector3 targetPosition;
+    private readonly Vector3 targetPosition;
 
     public MoveTask(Vector3 targetPosition) : this(targetPosition, false) { }
 
@@ -40,7 +40,7 @@ public class MoveTask : Task
 
 public class TaskGroup : Task
 {
-    private List<Task> subTaskList;
+    private readonly List<Task> subTaskList;
 
     public TaskGroup() : this(false) { }
 

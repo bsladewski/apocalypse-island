@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CollisionUtils
+public static class CollisionUtils
 {
     /// <summary>
     /// Checks whether a layer mask contains any of the specified layer bits.
