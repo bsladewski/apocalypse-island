@@ -24,8 +24,11 @@ public class TaskWorkerAI : MonoBehaviour
 
     public void SetTask(Task task)
     {
-        CancelTask();
-        ExecuteTask(task);
+        if (worker.IsValidTask(task))
+        {
+            CancelTask();
+            ExecuteTask(task);
+        }
     }
 
     private void Update()
@@ -45,13 +48,17 @@ public class TaskWorkerAI : MonoBehaviour
 
     private void RequestNextTask()
     {
+        // TODO: pass task validation function to the task system
         Task task = TaskSystem.Instance.RequestNextTask();
         if (task == null)
         {
             return;
         }
 
-        ExecuteTask(task);
+        if (worker.IsValidTask(task))
+        {
+            ExecuteTask(task);
+        }
     }
 
     private void ExecuteTask(Task task)

@@ -10,6 +10,11 @@ public class SurvivorWorker : TaskWorker
 
     private IEnumerator awaitPathComplete;
 
+    public override bool IsValidTask(Task task)
+    {
+        return survivorPathfinding.IsValidDestination(task.GetTargetPosition());
+    }
+
     public override void MoveTo(Vector3 targetPosition, Action onArrivedAtPosition)
     {
         if (awaitPathComplete != null)
@@ -17,17 +22,13 @@ public class SurvivorWorker : TaskWorker
             StopCoroutine(awaitPathComplete);
         }
 
-        // calculate the closest point the survivor can move to the target position
-        NNInfo survivorNode = AstarPath.active.GetNearest(transform.position, NNConstraint.Default);
-        NNConstraint constraint = NNConstraint.Default;
-        constraint.constrainArea = true;
-        constraint.area = (int)survivorNode.node.Area;
-        NNInfo closestNode = AstarPath.active.GetNearest(targetPosition, constraint);
-
-        // set the target position for the survivor pathfinder
-        survivorPathfinding.SetTargetPosition(closestNode.position);
-        awaitPathComplete = AwaitPathComplete(onArrivedAtPosition);
-        StartCoroutine(awaitPathComplete);
+        Vector3? newPosition = survivorPathfinding.GetClosestDestination(targetPosition);
+        if (newPosition.HasValue)
+        {
+            survivorPathfinding.SetTargetPosition(newPosition.Value);
+            awaitPathComplete = AwaitPathComplete(onArrivedAtPosition);
+            StartCoroutine(awaitPathComplete);
+        }
     }
 
     private IEnumerator AwaitPathComplete(Action onArrivedAtPosition)
