@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Pathfinding;
 using UnityEngine;
 
 public class SurvivorWorker : TaskWorker
@@ -12,7 +11,18 @@ public class SurvivorWorker : TaskWorker
 
     public override bool IsValidTask(Task task)
     {
-        return survivorPathfinding.IsValidDestination(task.GetTargetPosition());
+        switch (task)
+        {
+            case MoveTask moveTask:
+                return IsValidMoveTask(moveTask);
+            default:
+                return false;
+        }
+    }
+
+    private bool IsValidMoveTask(MoveTask moveTask)
+    {
+        return survivorPathfinding.IsValidDestination(moveTask.GetTargetPosition());
     }
 
     public override void MoveTo(Vector3 targetPosition, Action onArrivedAtPosition)

@@ -17,7 +17,7 @@ public class SurvivorMoveInteraction : MonoBehaviour
     {
         if (selectInteraction.GetIsSelected())
         {
-            taskWorkerAI.SetTask(new Task(movePosition, true));
+            taskWorkerAI.SetTask(new MoveTask(movePosition, true));
         }
     }
 }

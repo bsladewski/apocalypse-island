@@ -63,9 +63,22 @@ public class TaskWorkerAI : MonoBehaviour
 
     private void ExecuteTask(Task task)
     {
-        taskInProgress = task;
+        switch (task)
+        {
+            case MoveTask moveTask:
+                ExecuteMoveTask(moveTask);
+                break;
+            default:
+                Debug.LogError(string.Format("Attempted to execute unknown task type: {0}", task));
+                break;
+        }
+    }
+
+    private void ExecuteMoveTask(MoveTask moveTask)
+    {
+        taskInProgress = moveTask;
         state = State.Working;
-        worker.MoveTo(task.GetTargetPosition(), () =>
+        worker.MoveTo(moveTask.GetTargetPosition(), () =>
         {
             taskInProgress = null;
             state = State.Idle;

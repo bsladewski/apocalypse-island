@@ -1,6 +1,5 @@
 using Pathfinding;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SurvivorAnimation : MonoBehaviour
 {
@@ -23,5 +22,15 @@ public class SurvivorAnimation : MonoBehaviour
             lastPosition.z - transform.position.z);
         animator.SetFloat("Velocity", moveVector.magnitude / Time.deltaTime / aiPath.maxSpeed);
         lastPosition = transform.position;
+    }
+
+    public void StartMiningAnimation()
+    {
+        animator.SetBool("IsMining", true);
+    }
+
+    public void StopMiningAnimation()
+    {
+        animator.SetBool("IsMining", false);
     }
 }
